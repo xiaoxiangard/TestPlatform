@@ -1,6 +1,0 @@
-#mysql数据库配置信息
-mysqlinfo:
-  username: ceshiwang # mysql数据库用户名
-  password: 123456 # mysql数据库密码
-  server: 43.142.75.212 # mysql数据库的host地址
-  db: ceshi_data # 数据库名

@@ -1,6 +1,0 @@
-#jenkins配置信息
-jenkinsinfo:
-  BASE_URL: http://43.142.75.212:8080/ # Jenkins服务地址
-  USERNAME: jenkinswxx # Jenkins的用户名
-  PASSWORD: 11b0f6e24f5179dc8465f2cc7f3fc86984 # Jenkins用户的token
-  JOB: wechat # Jenkins中job的名称
