@@ -1,10 +1,10 @@
 # -*- coding: GBK -*-
 # -*- coding: UTF-8 -*-
 # coding=gbk
-'''
-__author__ï¼šwangxiaoxiang
-'''
-# æµ‹è¯•è®¡åˆ’å¤„ç†é€»è¾‘
+"""
+__author__£ºwangxiaoxiang
+"""
+# ²âÊÔ¼Æ»®´¦ÀíÂß¼­
 from Dao.Plan_Model import PlanModel
 from Dao.TestCase_Model import TestCaseModel
 from Service.Build import Build
@@ -16,35 +16,35 @@ class Plan:
 
     def execute(self, plan_id, case_titles):
         """
-        æ‰§è¡Œæµ‹è¯•ç”¨ä¾‹ï¼Œ éœ€è¦ä¼ å…¥è®¡åˆ’çš„idï¼Œä»¥åŠå¯¹åº”çš„å…·ä½“çš„ç”¨ä¾‹ä¿¡æ¯
+        Ö´ĞĞ²âÊÔÓÃÀı£¬ ĞèÒª´«Èë¼Æ»®µÄid£¬ÒÔ¼°¶ÔÓ¦µÄ¾ßÌåµÄÓÃÀıĞÅÏ¢
         :return:
         """
 
         # ['testcase1.py', 'testcase2.py']  -> pytest testcase1.py testcase2.py
-        # å®Œæˆæ ¼å¼è½¬æ¢ï¼Œjenkinså¯ä»¥ç›´æ¥è°ƒç”¨
+        # Íê³É¸ñÊ½×ª»»£¬jenkins¿ÉÒÔÖ±½Óµ÷ÓÃ
         case_titles = " ".join(case_titles)
-        logger.debug(f"æµ‹è¯•è®¡åˆ’{plan_id}ï¼Œ"
-                     f"è¦æ‰§è¡Œçš„çš„æµ‹è¯•ç”¨ä¾‹å†…å®¹{case_titles}")
-        # è°ƒç”¨æ‰§è¡Œå™¨æ‰§è¡Œæµ‹è¯•ç”¨ä¾‹
+        logger.debug(f"²âÊÔ¼Æ»®{plan_id}£¬"
+                     f"ÒªÖ´ĞĞµÄµÄ²âÊÔÓÃÀıÄÚÈİ{case_titles}")
+        # µ÷ÓÃÖ´ĞĞÆ÷Ö´ĞĞ²âÊÔÓÃÀı
         report = JenkinsUtils.invoke(task=case_titles)
-        # å†™å…¥æ„å»ºè®°å½•
+        # Ğ´Èë¹¹½¨¼ÇÂ¼
         build = Build()
         build.create(plan_id, report)
 
     def create(self, name, case_id_lists):
         """
-        1. è·å¾—å…³è”çš„æµ‹è¯•ç”¨ä¾‹ï¼Œåˆ›å»ºå¯¹åº”çš„æµ‹è¯•è®¡åˆ’
-        2. æ‰§è¡Œæµ‹è¯•è®¡åˆ’ï¼Œç”Ÿæˆä¸€æ¡æ„å»ºè®°å½•
+        1. »ñµÃ¹ØÁªµÄ²âÊÔÓÃÀı£¬´´½¨¶ÔÓ¦µÄ²âÊÔ¼Æ»®
+        2. Ö´ĞĞ²âÊÔ¼Æ»®£¬Éú³ÉÒ»Ìõ¹¹½¨¼ÇÂ¼
         :return:
         """
         # case_id_lists -> case_objs
         case_objects = [TestCaseModel.get_by_filter(id=case_id)
                         for case_id in case_id_lists]
-        logger.debug(f"æµ‹è¯•åˆ—è¡¨{case_id_lists}ï¼Œ"
-                     f"è·å–åˆ°çš„æµ‹è¯•ç”¨ä¾‹çš„å¯¹è±¡ä¸º{case_objects}")
-        # åœ¨åˆ›å»ºçš„è¿‡ç¨‹ä¸­ï¼Œéœ€è¦ä¼ å…¥æµ‹è¯•è®¡åˆ’çš„åç§°ï¼Œå¹¶ä¸”æŒ‡å‡ºå…³è”é‚£äº›æµ‹è¯•ç”¨ä¾‹
+        logger.debug(f"²âÊÔÁĞ±í{case_id_lists}£¬"
+                     f"»ñÈ¡µ½µÄ²âÊÔÓÃÀıµÄ¶ÔÏóÎª{case_objects}")
+        # ÔÚ´´½¨µÄ¹ı³ÌÖĞ£¬ĞèÒª´«Èë²âÊÔ¼Æ»®µÄÃû³Æ£¬²¢ÇÒÖ¸³ö¹ØÁªÄÇĞ©²âÊÔÓÃÀı
         plan_id = PlanModel.create(name, case_objects)
-        # ç›´æ¥è°ƒç”¨getæ–¹æ³•ï¼Œè·å–è½¬æ¢åçš„æµ‹è¯•æ•°æ®çš„æ ¼å¼
+        # Ö±½Óµ÷ÓÃget·½·¨£¬»ñÈ¡×ª»»ºóµÄ²âÊÔÊı¾İµÄ¸ñÊ½
         case_titles = self.get(plan_id)[0]["testcase_info"]
         self.execute(plan_id, case_titles)
 
@@ -57,11 +57,11 @@ class Plan:
         plan_objects = self.get_objs(plan_id)
         plan_datas = [{"id": plan_object.id,
                        "name": plan_object.name,
-                       # è·å–åˆ°çš„æµ‹è¯•æ•°æ®ä»å¯¹è±¡è½¬æ¢æˆå®é™…çš„æ•°æ®ä¿¡æ¯ï¼Œæ–¹ä¾¿é˜…è¯»
+                       # »ñÈ¡µ½µÄ²âÊÔÊı¾İ´Ó¶ÔÏó×ª»»³ÉÊµ¼ÊµÄÊı¾İĞÅÏ¢£¬·½±ãÔÄ¶Á
                        "testcase_info": [
                            testcase.case_title for testcase in plan_object.testcases]}
                       for plan_object in plan_objects]
-        logger.info(f"è·å–åˆ°çš„æµ‹è¯•è®¡åˆ’çš„æ•°æ®ä¸º->{plan_datas}")
+        logger.info(f"»ñÈ¡µ½µÄ²âÊÔ¼Æ»®µÄÊı¾İÎª->{plan_datas}")
         return plan_datas
 
     def get_objs(self, plan_id=None):
@@ -69,5 +69,5 @@ class Plan:
             r = PlanModel.get_filter_by(id=plan_id)
         else:
             r = PlanModel.get_all()
-        logger.debug(f"è·å–åˆ°çš„æµ‹è¯•è®¡åˆ’çš„åˆ—è¡¨ä¸º{r}")
+        logger.debug(f"»ñÈ¡µ½µÄ²âÊÔ¼Æ»®µÄÁĞ±íÎª{r}")
         return r
